@@ -3,7 +3,7 @@
 #include <IncludeTutorial/PriceDataClass.mqh>
 
 
-//Get The Price Data Class To Access The Candlestick Methods
+//Access Candlestick Methods Using The HPriceData Class
 
 HPriceData MyPriceData;
 
@@ -46,7 +46,7 @@ void OnTick()
 //---
 
    //Add Price Data To The Array.
-   //The Add Price Data Methods Uses The CopyBuffer Function
+   //This Method Uses The CopyBuffer Function.
 
    MyPriceData.Add_Price_Data();
    
@@ -125,7 +125,7 @@ void OnTick()
       
      }
    
-   //Output The Index Of The Candle Pattern Type As Vertical Line
+   //Output The Index Of The Candle Pattern Type As A Vertical Line
    
    ObjectCreate(0, "Bullish Marubozu Index", OBJ_VLINE, 0, bull_maru_index, 0,0);
    
