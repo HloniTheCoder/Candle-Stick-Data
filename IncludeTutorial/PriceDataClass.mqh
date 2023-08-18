@@ -3,11 +3,11 @@
 class HPriceData{
    
    protected:
-      MqlRates price_data_array[]; //Used to store Data OHLCV Data.
+      MqlRates price_data_array[]; //Used to store Date OHLCV Data.
       
    public:
-      HPriceData(); //Make ArraySetAsSeries On Initialize
-      void Add_Price_Data(); //Copy Price Data To The Price Data Array.
+      HPriceData(); //Initialize ArraySetAsSeries.
+      void Add_Price_Data(); //CopyBuffer Function.
       
       //Get Date OHLCV Data
       
@@ -18,7 +18,7 @@ class HPriceData{
       double Get_Close_Value(int pIndex=0);
       int Get_Volume_Value(int pIndex=0);
       
-      //Get Candle Index Bullish Or Bearish State
+      //Get Bullish Or Bearish State
       
       bool Get_Is_Bullish(int pIndex=0);
       bool Get_Is_Bearish(int pIndex=0);
@@ -59,7 +59,7 @@ class HPriceData{
       double Get_Average_Upper_Percentage(int pIndex=0, int pAvrRange=5);
       double Get_Average_Lower_Percentage(int pIndex=0, int pAvrRange=5);
       
-      //Determine If A Candle Value Is Long Or Short
+      //Determine If The Candle Value Is Long Or Short
       //A Value Is Long If It Is Greater Or Equal To The inp_val times 1.5
       //A Value Is Short If It Is Less Or Equal To The inp_val time 0.5
       
@@ -99,7 +99,7 @@ class HPriceData{
       bool Calculate_Is_Significant_In_Candle(double curr_perc);
       bool Calculate_Is_Least_Of_Candle(double curr_perc);
       
-      //Get If The Body Is Most, Significant, or Leasr In The Candle
+      //Get If The Body Is Most, Significant, or Least In The Candle
       
       bool Get_Body_Is_Most_Of_Candle(int pIndex=0);
       bool Get_Body_Is_Significant_In_Candle(int pIndex=0);
