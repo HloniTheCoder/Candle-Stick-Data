@@ -1,19 +1,11 @@
 Identify Candlestick Patterns Using MQL5
 
-Candlestick Patterns Include Marubozu, Hammer, Inverted Hammer, Hanging Man, Shooting Star
+Identify The Marubozu, Hammer, Inverted Hammer, Hanging Man, Shooting Star Candlestick Patterns.
 
-Candlstick Patterns Are Identified Using A Vertical Line Object
+A Vertical Line Will Be Output Corresponding To The Candle Pattern Type.
 
-The Implementation can be modified to include additional candlestick patterns and methods of output such as arrows, boxes, and text
+The IncludeTutorial Folder Has The File That Contains The Price Data Classes.
 
-Red Is Used To Identify Bullish Marubozu
+The Class Based Candle Stick Data File Uses The Classes Contained In The Include Folder.
 
-Blue Is Used To Identify Bullish Hammers
-
-Green Is Used To Identify Bullish Inverted Hammers
-
-Yellow Is Used To Identify Bearish Marubozu
-
-Orange Is Used To Identify Bearish Hanging Man
-
-Purple Is Used To Identify Bearish Shooting Star
+The Candle Stick Data File Is Independent Of The Price Data Classes.
