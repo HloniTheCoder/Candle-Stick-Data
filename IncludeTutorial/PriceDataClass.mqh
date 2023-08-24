@@ -171,6 +171,21 @@ class HPriceData{
       
       bool Get_Long_Shooting_Star_Type(int pIndex=0, int pAvrRange=5);
       bool Get_Significant_Shooting_Star_Type(int pIndex=0, int pAvrRange=5);
+      
+      
+      //Get An Engulfing Candlestick Pattern
+      //Based On The Identification Of Long Candlesticks
+      
+      bool Get_Is_Bullish_Engulfing(int pIndex=0, int pAvrRange=5);
+      
+      bool Get_Is_Bearish_Engulfing(int pIndex=0, int pAvrRange=5);
+      
+      //Get A Hrami Candlestick Pattern
+      //Based On The Indetifcation Of Long Candlesticks
+      
+      bool Get_Is_Bullish_Harami(int pIndex=0, int pAvrRange=5);
+      
+      bool Get_Is_Bearish_Harami(int pIndex=0, int pAvrRange=5);
    
 };
 
@@ -489,6 +504,13 @@ double HPriceData::Get_Body_Percentage(int pIndex=0){
    
    double body_size = Get_Body_Size(pIndex);
    
+   if(candle_size == 0 || body_size == 0)
+     {
+      
+      return(0);
+      
+     }
+   
    double body_div_value = body_size / candle_size;
    
    double body_perc_value = body_div_value * 100;
@@ -504,6 +526,13 @@ double HPriceData::Get_Upper_Percentage(int pIndex=0){
    
    double upper_size = Get_Upper_Size(pIndex);
    
+   if(candle_size == 0 || upper_size == 0)
+     {
+      
+      return(0);
+      
+     }
+   
    double upper_div_value = upper_size / candle_size;
    
    double upper_perc_value = upper_div_value * 100;
@@ -518,6 +547,13 @@ double HPriceData::Get_Lower_Percentage(int pIndex=0){
    double candle_size = Get_Candle_Size(pIndex);
    
    double lower_size = Get_Lower_Size(pIndex);
+   
+   if(candle_size == 0 || lower_size == 0)
+     {
+      
+      return(0);
+      
+     }
    
    double lower_div_value = lower_size / candle_size;
    
@@ -1085,5 +1121,129 @@ bool HPriceData::Get_Significant_Shooting_Star_Type(int pIndex=0,int pAvrRange=5
    bool is_ss = (is_bear && upper_is_significant);
    
    return(is_ss);
+   
+}
+
+
+bool HPriceData::Get_Is_Bullish_Engulfing(int pIndex=0,int pAvrRange=5){
+   
+   int curr_index = pIndex;
+   
+   int prev_index = pIndex + 1;
+   
+   bool curr_is_bull = Get_Is_Bullish(curr_index);
+   
+   bool prev_is_bear = Get_Is_Bearish(prev_index);
+   
+   bool curr_body_is_long = Get_Is_Body_Size_Long(curr_index, pAvrRange);
+   
+   bool prev_body_is_long = Get_Is_Body_Size_Long(prev_index, pAvrRange);
+   
+   double curr_body_size = Get_Body_Size(curr_index);
+   
+   double prev_body_size = Get_Body_Size(prev_index);
+   
+   bool curr_is_marubozu = Get_Long_Bullish_Marubozu_Type(curr_index, pAvrRange);
+   
+   bool bull_and_bear = curr_is_bull && prev_is_bear;
+   
+   bool body_is_long = curr_body_is_long && prev_body_is_long;
+   
+   bool body_size_is_greater = curr_body_size > prev_body_size;
+   
+   
+   bool is_engulfing = bull_and_bear && body_is_long && body_size_is_greater && curr_is_marubozu;
+   
+   return(is_engulfing);
+   
+}
+
+
+bool HPriceData::Get_Is_Bearish_Engulfing(int pIndex=0,int pAvrRange=5){
+   
+   int curr_index = pIndex;
+   
+   int prev_index = pIndex + 1;
+   
+   bool curr_is_bear = Get_Is_Bearish(curr_index);
+   
+   bool prev_is_bull = Get_Is_Bullish(prev_index);
+   
+   bool curr_is_long = Get_Is_Body_Size_Long(curr_index, pAvrRange);
+   
+   bool prev_is_long = Get_Is_Body_Size_Long(prev_index, pAvrRange);
+   
+   double curr_body_size = Get_Body_Size(curr_index);
+   
+   double prev_body_size = Get_Body_Size(prev_index);
+   
+   bool curr_is_maru = Get_Long_Bearish_Marubozu_Type(curr_index, pAvrRange);
+   
+   bool bull_and_bear = curr_is_bear && prev_is_bull;
+   
+   bool body_is_long = curr_is_long && prev_is_long;
+   
+   bool body_is_greater = curr_body_size > prev_body_size;
+   
+   
+   bool is_engulfing = bull_and_bear && body_is_long && body_is_greater && curr_is_maru;
+   
+   return(is_engulfing);
+   
+}
+
+
+bool HPriceData::Get_Is_Bullish_Harami(int pIndex=0,int pAvrRange=5){
+   
+   int curr_index = pIndex;
+   
+   int prev_index = pIndex + 1;
+   
+   bool curr_is_bull = Get_Is_Bullish(curr_index);
+   
+   bool prev_is_bear = Get_Is_Bearish(prev_index);
+   
+   bool prev_body_long = Get_Is_Body_Size_Long(prev_index, pAvrRange);
+   
+   bool curr_hammer = Get_Long_Hammer_Type(curr_index, pAvrRange);
+   
+   bool curr_inv_hammer = Get_Long_Inverted_Hammer_Type(curr_index, pAvrRange);
+   
+   bool bull_and_bear = curr_is_bull && prev_is_bear;
+   
+   bool hammer_type = curr_hammer || curr_inv_hammer;
+   
+   
+   bool is_harami = bull_and_bear && hammer_type && prev_body_long;
+   
+   return(is_harami);
+   
+}
+
+
+bool HPriceData::Get_Is_Bearish_Harami(int pIndex=0,int pAvrRange=5){
+   
+   int curr_index = pIndex;
+   
+   int prev_index = pIndex + 1;
+   
+   bool curr_is_bear = Get_Is_Bearish(curr_index);
+   
+   bool prev_is_bull = Get_Is_Bullish(prev_index);
+   
+   bool prev_body_is_long = Get_Is_Body_Size_Long(prev_index);
+   
+   bool curr_hang = Get_Long_Hanging_Man_Type(curr_index, pAvrRange);
+   
+   bool curr_star = Get_Long_Shooting_Star_Type(curr_index, pAvrRange);
+   
+   bool bull_and_bear = curr_is_bear && prev_is_bull;
+   
+   bool star_or_hang_type = curr_star || curr_hang;
+   
+   
+   bool is_harami = bull_and_bear && star_or_hang_type && prev_body_is_long;
+   
+   return(is_harami);
    
 }
